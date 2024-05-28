@@ -3,5 +3,5 @@
 IDE : vsCode  
 python v3.12.3  
 
-### 1. 도로 최종 버전
-![7](https://github.com/doomout/Python_Racer/assets/13861731/165127b3-9d53-4295-98ce-80491c884b79)
+### 1. 배경과 움직이는 도로 
+![8](https://github.com/doomout/Python_Racer/assets/13861731/8605de61-9bc1-4111-a33a-63fe5899dd77)
