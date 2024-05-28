@@ -17,3 +17,6 @@ python v3.12.3
 
 ### 5. 키보드로 도로 경사로 만들기
 ![5](https://github.com/doomout/Python_Racer/assets/13861731/ca2eb196-bc26-4c31-af6a-e915a08bd163)
+
+### 6. 키보드로 도로 기복 만들기
+![6](https://github.com/doomout/Python_Racer/assets/13861731/94bf6380-edf3-4956-9686-536eccdb50cd)
