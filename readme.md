@@ -1,5 +1,6 @@
 #3D 레이싱 게임  
 
+도서 : 파이썬으로 배우는 게임 개발 실전편
 IDE : vsCode  
 python v3.12.3  
 
@@ -8,3 +9,6 @@ python v3.12.3
 
 ### 2. 기복 데이터 추가(v2)
 ![13](https://github.com/doomout/Python_Racer/assets/13861731/192ac044-3885-473e-a9de-5627bfe144f1)
+
+### 3. 도로 주변에 이미지 추가(v3)
+![14](https://github.com/doomout/Python_Racer/assets/13861731/1af21ef1-58d2-465a-b78e-03271747ede5)
