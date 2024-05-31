@@ -1,13 +1,16 @@
-#자동차 추가
+#COM 차 추가
 import pygame
 import sys
 import math
+import random
 from pygame.locals import *
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED =  (255, 0, 0)
 YELLOW = (255, 224, 0)
+
+tmr = 0
 
 DATA_LR = [0,0,0,0,0,0,0,0,0,0,
            0,0,1,2,3,2,1,0,2,4,
@@ -68,6 +71,17 @@ def draw_shadow(bg, x, y, siz): #그림자 표시함수
     pygame.draw.ellipse(shadow, BLACK,[0, 0, siz, siz / 4])  #검은색 타원 그림
     bg.blit(shadow,  [x - siz / 2, y - siz / 4])  #타원을 게임 화면에 전송
 
+def init_car(): #차량 관리 리스트 초기화 함수
+    for i in range(1, CAR):
+        car_x[i] = random.randint(50, 750) #가로 방향 좌표 무작위 결정
+        car_y[i] = random.randint(200, CMAX - 200) #코스 상 위치 무작위 결정
+        car_lr[i] = 0 #좌우 움직임 0 대입 (정면 향함)
+        car_spd[i] = random.randint(100, 200) #속도 무작위 결정
+    car_x[0] = 400 #플레이어 차량 가로 방향 화면 중앙
+    car_y[0] = 0  #플레이어 자량 코스 상 위치 초기화
+    car_lr[0] = 0
+    car_spd[0] = 0
+
 def drive_car(key):  # 플레이어 차량 조작 및 제어
     if key[K_LEFT] == 1:  #왼쪽 방향키를 누르면
         if car_lr[0] > -3: 
@@ -104,12 +118,42 @@ def drive_car(key):  # 플레이어 차량 조작 및 제어
     if car_y[0] > CMAX - 1: #코스 종점을 넘으면
         car_y[0] -= CMAX #코스 시작으로  되돌림
 
+def move_car(cs): #COM 차량 제어
+    for i in range(cs, CAR):
+        if car_spd[i] < 100: #속도가 100보다 느리면 
+            car_spd[i] += 3 #속도 증가
+        if i == tmr % 120: #일정 시간별로
+            car_lr[i] += random.choice([-1, 0, 1]) #방향 무작위
+            if car_lr[i] < -3: car_lr[i] = -3
+            if car_lr[i] > 3: car_lr[i] = 3
+        car_x[i] = car_x[i] + car_lr[i] * car_spd[i] / 100 #차량 방향, 속도에서 가로 좌표 계산
+
+        if car_x[i] < 50: #왼쪽 길 끝에 가까우면
+            car_x[i] = 50 #그 이상 못가도록
+            car_lr[i] = int(car_lr[i] * 0.9) #정면쪽으로 이동
+        if car_x[i] > 750: #오른쪽 길 끝에 가까우면
+            car_x[i] = 750 #그 이상 못가도록
+            car_lr[i] = int(car_lr[i] * 0.9) #정면쪽으로 이동
+        car_y[i] += car_spd[i] / 100 #차량 속도에서 코스 상 위치 계산
+        if car_y[i] > CMAX - 1: #코스 종점을 넘었다면
+            car_y[i] -= CMAX #코스 시작으로 이동
+
+def draw_text(scrn, txt, x, y, col, fnt): #그림자 포함 문자열 표시 함수
+    sur = fnt.render(txt, True, BLACK)
+    x -= sur.get_width() / 2 #센터링 계산
+    y -= sur.get_height() / 2 #센터링 계산
+    scrn.blit(sur, [x + 2, y + 2])
+    sur = fnt.render(txt, True, col)
+    scrn.blit(sur, [x, y])
+
 
 def main(): 
+    global tmr
     pygame.init()
     pygame.display.set_caption("Python Racer")
     screen =  pygame.display.set_mode((800, 600)) #화면 초기화
     clock = pygame.time.Clock()  
+    fnt_m = pygame.font.Font(None, 50) #폰트 객체 생성, 중간 크기 문자
   
     img_bg = pygame.image.load("image_pr/bg.png").convert() #배경 이미지 로딩
     img_sea = pygame.image.load("image_pr/sea.png").convert_alpha()
@@ -126,7 +170,21 @@ def main():
         pygame.image.load("image_pr/car03.png").convert_alpha(),
         pygame.image.load("image_pr/car04.png").convert_alpha(),
         pygame.image.load("image_pr/car05.png").convert_alpha(),
-        pygame.image.load("image_pr/car06.png").convert_alpha()
+        pygame.image.load("image_pr/car06.png").convert_alpha(),
+        pygame.image.load("image_pr/car10.png").convert_alpha(),
+        pygame.image.load("image_pr/car11.png").convert_alpha(),
+        pygame.image.load("image_pr/car12.png").convert_alpha(),
+        pygame.image.load("image_pr/car13.png").convert_alpha(),
+        pygame.image.load("image_pr/car14.png").convert_alpha(),
+        pygame.image.load("image_pr/car15.png").convert_alpha(),
+        pygame.image.load("image_pr/car16.png").convert_alpha(),
+        pygame.image.load("image_pr/car20.png").convert_alpha(),
+        pygame.image.load("image_pr/car21.png").convert_alpha(),
+        pygame.image.load("image_pr/car22.png").convert_alpha(),
+        pygame.image.load("image_pr/car23.png").convert_alpha(),
+        pygame.image.load("image_pr/car24.png").convert_alpha(),
+        pygame.image.load("image_pr/car25.png").convert_alpha(),
+        pygame.image.load("image_pr/car26.png").convert_alpha()
     ]
 
     #도로 판 기본 형태 계산
@@ -139,8 +197,7 @@ def main():
         BOARD_UD[i] =2 * math.sin(math.radians(i * 1.5))
     
     make_course() #코스 데이터 생성
-
-    car_x[0] = 400 # 플레이어의 초기 위치를 화면의 중앙으로 설정
+    init_car() #차량 관리 리스트 초기화
 
     vertical = 0 #배경 가로 방향 위치
 
@@ -149,6 +206,12 @@ def main():
             if event.type == QUIT: #윈도우 x 버튼 클릭시
                 pygame.quit() #pygame 모듈 초기화 삭제
                 sys.exit()  #프로그램 종료
+            if event.type == KEYDOWN:
+                if event.key == K_F1: #F1 키
+                    screen = pygame.display.set_mode((800, 600), FULLSCREEN) # 풀 스크린
+                if event.key == K_F2 or event.key == K_ESCAPE: #F2, esc 키
+                    screen = pygame.display.set_mode((800, 600)) #일반 화면 크기
+        tmr += 1
         
         #화면에 그릴 도로 x 좌표와 높낮이 계산
         di = 0 #도로 커브 방향 계산 변수
@@ -209,15 +272,25 @@ def main():
             if obj_r == 1: #간판
                 draw_obj(screen, img_obj[obj_r], ux + uw * 1.3, uy, scale)
             
+            for c in range(1, CAR): #COM 차량
+                if int(car_y[c]) % CMAX == int(car_y[0] + i) % CMAX:
+                    lr = int(4 * (car_x[0] - car_x[c]) / 800) #플레이어가 보는 COM 차량 방향
+                    if lr < -3: lr = -3
+                    if lr > 3: lr = 3
+                    draw_obj(screen, img_car[(c % 3) * 7 + 3 + lr], ux + car_x[c] * BOARD_W[i] / 800, uy, 0.05 + BOARD_W[i] / BOARD_W[0]) 
+            
             if i == PLCAR_Y: #플레이어 차량
                 draw_shadow(screen, ux + car_x[0] * BOARD_W[i] / 800, uy, 200 * BOARD_W[i] / BOARD_W[0])
                 draw_obj(screen, img_car[3 + car_lr[0]], ux + car_x[0] * BOARD_W[i] / 800, uy, 0.05 + BOARD_W[i] / BOARD_W[0])
         
+        draw_text(screen, str(int(car_spd[0])) + "km/h", 680, 30, RED, fnt_m)
+
         key = pygame.key.get_pressed() #key에 모든 키 상태 대입
         drive_car(key) #플레이어 차량 그림
+        move_car(1)
 
         pygame.display.update()
         clock.tick(60) #60 프레임
-  
+       
 if __name__ == '__main__': #이 프로그램 직접  실행시
     main() #main() 함수 호출
