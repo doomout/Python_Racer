@@ -15,3 +15,6 @@ python v3.12.3
 
 ### 4. 플레이어 차 추가(v4)
 ![15](https://github.com/doomout/Python_Racer/assets/13861731/99ab64a9-ba1d-40a1-89ea-f4d406a2bad9)
+
+### 5. 차량 충돌 판정 추가(v5)
+![16](https://github.com/doomout/Python_Racer/assets/13861731/d32eab02-d8f5-4a50-ae2a-cbf5cbffa8db)
