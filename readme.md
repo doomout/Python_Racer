@@ -18,3 +18,6 @@ python v3.12.3
 
 ### 5. 랩타임 추가(v5)
 ![18](https://github.com/doomout/Python_Racer/assets/13861731/cf572af8-6a43-44b2-97bd-df4add3c7cb1)
+
+### 6. 차량 선택 추가(v6)
+![19](https://github.com/doomout/Python_Racer/assets/13861731/a33628da-155b-4ac5-9cfc-40b4fd9824de)
