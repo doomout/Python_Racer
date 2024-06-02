@@ -15,3 +15,6 @@ python v3.12.3
 
 ### 4. 시작과 끝 꾸미기(v4)
 ![17](https://github.com/doomout/Python_Racer/assets/13861731/9997ea90-ffc9-4f84-9d04-cfb67f55ace7)
+
+### 5. 랩타임 추가(v5)
+![18](https://github.com/doomout/Python_Racer/assets/13861731/cf572af8-6a43-44b2-97bd-df4add3c7cb1)
